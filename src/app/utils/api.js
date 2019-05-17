@@ -1,4 +1,4 @@
-import { DECK_STORAGE_KEY, initialData } from './_decks'
+import { DECK_STORAGE_KEY, initialData } from './_initalData'
 import { AsyncStorage } from 'react-native'
 
 export function setNewDeck (deck) {

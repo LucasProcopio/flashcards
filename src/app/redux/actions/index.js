@@ -9,9 +9,13 @@ import {
 
 export function handleInitialData () {
   return dispatch => {
-    fetchDecks().then(decks => {
-      if (decks === null) {
-        setInitialData().then(decks => dispatch(decks))
+    fetchDecks().then(deckList => {
+      if (deckList === null) {
+        console.log('FECTHING INITIAL DATA')
+        setInitialData().then(decks => {
+          const initialData = JSON.parse(decks)
+          dispatch(initialData)
+        })
       }
     })
   }

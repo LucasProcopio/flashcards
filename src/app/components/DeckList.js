@@ -12,12 +12,13 @@ class DeckList extends React.Component {
 
   render () {
     const { decks } = this.props
+    console.log(decks)
     return (
       <View>
         <FlatList
           data={decks}
           extraData={decks}
-          keyExtractor={this._keyExtractor}
+          keyExtractor={item => item.id}
           renderItem={({ item }) => {
             return (
               <View style={styles.item}>

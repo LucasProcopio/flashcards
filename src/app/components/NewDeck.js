@@ -12,6 +12,7 @@ class NewDeck extends React.Component {
 
   handleChange = (name, value) => {
     this.setState({ [name]: value })
+    // Math.random().toString(36).substr(2,10) ID for the new deck
   }
 
   createDeck = () => {
