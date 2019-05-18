@@ -1,25 +1,12 @@
 import { DECK_STORAGE_KEY, initialData } from './_initalData'
 import { AsyncStorage } from 'react-native'
 
-export function setNewDeck (deck) {
-  return {
-    [deck]: {
-      title: deck,
-      questions: []
-    }
+export async function submitNewDeck (deck) {
+  try {
+    return await AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deck))
+  } catch (e) {
+    console.log(e)
   }
-}
-
-export function submitNewDeck (deck) {
-  return AsyncStorage.mergeItem(
-    DECK_STORAGE_KEY,
-    JSON.stringify({
-      [deck]: {
-        title: deck,
-        questions: []
-      }
-    })
-  )
 }
 
 export async function setInitialData () {
