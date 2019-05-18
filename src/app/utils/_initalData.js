@@ -1,6 +1,6 @@
 export const DECK_STORAGE_KEY = 'flashcards:decks'
 export const initialData = {
-  JavaScript: {
+  '8xqp3pjezn': {
     id: '8xqp3pjezn',
     title: 'JavaScript',
     questions: [
@@ -11,8 +11,8 @@ export const initialData = {
       }
     ]
   },
-  Redux: {
-    id: 'ml7x13tggd',
+  '7l7x13tggd': {
+    id: '7l7x13tggd',
     title: 'Redux',
     questions: [
       {

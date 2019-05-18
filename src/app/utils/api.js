@@ -5,7 +5,7 @@ export async function submitNewDeck (deck) {
   try {
     return await AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deck))
   } catch (e) {
-    console.log(e)
+    console.log('MERGE DATA ERROR', e)
   }
 }
 
@@ -16,7 +16,7 @@ export async function setInitialData () {
       JSON.stringify(initialData)
     ).then(data => data)
   } catch (e) {
-    console.log(e)
+    console.log('INITIAL DATA ERROR', e)
   }
 }
 

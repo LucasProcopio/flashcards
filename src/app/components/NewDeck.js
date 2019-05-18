@@ -13,6 +13,10 @@ import { FontAwesome } from '@expo/vector-icons'
 import AwesomeAlert from 'react-native-awesome-alerts'
 
 class NewDeck extends React.Component {
+  static navigationOptions = {
+    title: 'New Deck'
+  }
+
   state = {
     deckName: '',
     showAlert: false,
@@ -29,12 +33,9 @@ class NewDeck extends React.Component {
     const uId = Math.random()
       .toString(36)
       .substr(2, 10)
-    const deckId = `${deckName}:${uId}`
     return {
-      [deckId]: {
-        id: Math.random()
-          .toString(36)
-          .substr(2, 10),
+      [uId]: {
+        id: uId,
         title: deckName,
         questions: []
       }
@@ -50,11 +51,7 @@ class NewDeck extends React.Component {
 
       dispatch(handleNewDeck(deck))
 
-      this.setState({
-        alertTitle: 'Success',
-        alertMessage: 'The deck was successfully created'
-      })
-      this.showAlert()
+      //Todo redirect to deck view
     } else {
       this.setState({
         alertTitle: 'Sorry',

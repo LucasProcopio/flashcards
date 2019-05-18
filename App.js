@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
+import { createStackNavigator, createAppContainer } from 'react-navigation'
 
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
@@ -11,52 +11,36 @@ import thunk from 'redux-thunk'
 
 import NewDeck from './src/app/components/NewDeck'
 import DeckList from './src/app/components/DeckList'
+import Deck from './src/app/components/Deck'
 
-import { FontAwesome } from '@expo/vector-icons'
+import { color } from './src/app/styles/colors'
 
-const Tab = createBottomTabNavigator(
+const stackNav = createStackNavigator(
   {
     DeckList: {
-      screen: DeckList,
-      navigationOptions: {
-        tabBarLabel: 'Decks',
-        tabBarIcon: ({ tintColor }) => (
-          <FontAwesome name="list-alt" size={30} color={tintColor} />
-        )
-      }
+      screen: DeckList
     },
     NewDeck: {
-      screen: NewDeck,
-      navigationOptions: {
-        tabBarLabel: 'New Deck',
-        tabBarIcon: ({ tintColor }) => (
-          <FontAwesome name="plus-square" size={30} color={tintColor} />
-        )
-      }
+      screen: NewDeck
+    },
+    Deck: {
+      screen: Deck
     }
   },
   {
-    navigationOptions: {
-      header: null
-    },
-    tabBarOptions: {
-      activeTintColor: 'white',
-      style: {
-        height: 56,
-        backgroundColor: 'blue',
-        shadowColor: 'rgba(0,0,0,0.24)',
-        shadowOffset: {
-          width: 0,
-          height: 3
-        },
-        shadowRadius: 4,
-        shadowOpacity: 1
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: color.main
+      },
+      headerTintColor: color.white,
+      headerTitleStyle: {
+        fontWeight: 'bold'
       }
     }
   }
 )
 
-const TabNavigator = createAppContainer(Tab)
+const AppContainer = createAppContainer(stackNav)
 const store = createStore(rootReducer, applyMiddleware(thunk, log))
 
 export default class App extends React.Component {
@@ -64,7 +48,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-          <TabNavigator />
+          <AppContainer />
         </View>
       </Provider>
     )

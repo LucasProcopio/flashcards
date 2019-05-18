@@ -1,20 +1,50 @@
 import React from 'react'
-import { View, Text, FlatList, SafeAreaView, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native'
 import { connect } from 'react-redux'
 import { handleInitialData, handleFetchDeck } from '../redux/actions'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { color } from '../styles/colors'
 
 class DeckList extends React.Component {
-  componentDidMount () {
+  static navigationOptions = {
+    title: 'Home'
+  }
+
+  componentDidMount() {
     const { dispatch } = this.props
     dispatch(handleInitialData())
     dispatch(handleFetchDeck())
   }
 
-  render () {
+  render() {
     const { decks } = this.props
     console.log(decks)
     return (
       <View>
+        {/*
+          TODO: style button to be on top of the content
+          TODO: Add animation on click
+          TODO: Style the deck view
+        */}
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('NewDeck')
+            }}
+          >
+            <MaterialCommunityIcons
+              name="plus-circle"
+              size={70}
+              color={color.main}
+            />
+          </TouchableOpacity>
+        </View>
         <FlatList
           data={decks}
           extraData={decks}
@@ -22,7 +52,16 @@ class DeckList extends React.Component {
           renderItem={({ item }) => {
             return (
               <View style={styles.item}>
-                <Text style={styles.text}>{item.title}</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('Deck', {
+                      deck: item,
+                      title: item.title
+                    })
+                  }}
+                >
+                  <Text style={styles.text}>{item.title}</Text>
+                </TouchableOpacity>
               </View>
             )
           }}
