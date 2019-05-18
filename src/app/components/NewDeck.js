@@ -1,55 +1,118 @@
 import React from 'react'
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView
+} from 'react-native'
 import { connect } from 'react-redux'
 import { handleNewDeck } from '../redux/actions'
-import { AsyncStorage } from 'react-native'
+import { newDeckStyles } from '../styles/newDeck'
+import { color } from '../styles/colors'
+import { FontAwesome } from '@expo/vector-icons'
+import AwesomeAlert from 'react-native-awesome-alerts'
 
 class NewDeck extends React.Component {
   state = {
-    deckName: ''
+    deckName: '',
+    showAlert: false,
+    alertTitle: '',
+    alertMessage: ''
   }
   componentDidMount() {}
 
   handleChange = (name, value) => {
     this.setState({ [name]: value })
-    // Math.random().toString(36).substr(2,10) ID for the new deck
+  }
+
+  createDeckStructure = deckName => {
+    const uId = Math.random()
+      .toString(36)
+      .substr(2, 10)
+    const deckId = `${deckName}:${uId}`
+    return {
+      [deckId]: {
+        id: Math.random()
+          .toString(36)
+          .substr(2, 10),
+        title: deckName,
+        questions: []
+      }
+    }
   }
 
   createDeck = () => {
     const { dispatch } = this.props
     const { deckName } = this.state
 
-    dispatch(handleNewDeck(deckName))
-    console.log(`Deck: ${this.state.deckName} Created`)
+    if (deckName.length > 3) {
+      const deck = this.createDeckStructure(deckName)
+
+      dispatch(handleNewDeck(deck))
+
+      this.setState({
+        alertTitle: 'Success',
+        alertMessage: 'The deck was successfully created'
+      })
+      this.showAlert()
+    } else {
+      this.setState({
+        alertTitle: 'Sorry',
+        alertMessage: 'The name of the deck must be at least 3 characters'
+      })
+      this.showAlert()
+    }
   }
 
-  showDeck = async () => {
-    const value = await AsyncStorage.getItem('React')
-    if (value !== null) {
-      // We have data!!
-      console.log(value)
-    } else {
-      console.log('Deck do not exists')
-    }
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    })
+  }
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    })
   }
 
   render() {
     return (
-      <View>
-        <Text>New Deck</Text>
+      <KeyboardAvoidingView
+        behavior="padding"
+        enabled
+        style={newDeckStyles.container}
+      >
+        <FontAwesome name="book" size={50} color={color.main} />
+        <Text style={newDeckStyles.title}>Create a new Deck</Text>
         <TextInput
+          style={newDeckStyles.textInput}
           onChangeText={text => this.handleChange('deckName', text)}
           name="deckName"
           value={this.state.deckName}
         />
-        <TouchableOpacity onPress={() => this.createDeck()}>
-          <Text>Create Deck</Text>
+        <TouchableOpacity
+          style={newDeckStyles.createBtn}
+          onPress={() => this.createDeck()}
+        >
+          <Text style={newDeckStyles.btnText}>Create Deck</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => this.showDeck()}>
-          <Text>Show Deck</Text>
-        </TouchableOpacity>
-      </View>
+        <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={false}
+          title={this.state.alertTitle}
+          message={this.state.alertMessage}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="Ok"
+          confirmButtonColor={color.main}
+          onConfirmPressed={() => {
+            this.hideAlert()
+          }}
+        />
+      </KeyboardAvoidingView>
     )
   }
 }
