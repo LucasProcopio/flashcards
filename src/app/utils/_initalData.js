@@ -1,6 +1,6 @@
 export const DECK_STORAGE_KEY = 'flashcards:decks'
 export const initialData = {
-  JavaScript: {
+  '8xqp3pjezn': {
     id: '8xqp3pjezn',
     title: 'JavaScript',
     questions: [
@@ -8,11 +8,15 @@ export const initialData = {
         question: 'What is a closure?',
         answer:
           'The combination of a function and the lexical environment within which that function was declared.'
+      },
+      {
+        question: 'What is an object',
+        answer: 'An object is a collection of properties'
       }
     ]
   },
-  Redux: {
-    id: 'ml7x13tggd',
+  '7l7x13tggd': {
+    id: '7l7x13tggd',
     title: 'Redux',
     questions: [
       {

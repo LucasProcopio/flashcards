@@ -1,15 +1,16 @@
 // action creators
-import { newDeck, fecthDecks } from './decks'
+import { newDeck, fecthDecks, initialData } from './decks'
 import { submitNewDeck, setInitialData, fetchDecks } from '../../utils/api'
 
 export function handleInitialData () {
   return dispatch => {
-    fetchDecks().then(deckList => {
+    return fetchDecks().then(deckList => {
       if (deckList === null) {
-        console.log('FECTHING INITIAL DATA')
-        setInitialData().then(decks => {
-          const initialData = JSON.parse(decks)
-          dispatch(initialData)
+        setInitialData().then(() => {
+          fetchDecks().then(decks => {
+            const decksObj = JSON.parse(decks)
+            dispatch(initialData(decksObj))
+          })
         })
       }
     })

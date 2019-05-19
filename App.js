@@ -1,78 +1,57 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
+import { View } from 'react-native'
+import { createStackNavigator, createAppContainer } from 'react-navigation'
 
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './src/app/redux/reducers'
-import logger from 'redux-logger'
+
 import log from './src/app/redux/middleware/log'
 import thunk from 'redux-thunk'
 
 import NewDeck from './src/app/components/NewDeck'
 import DeckList from './src/app/components/DeckList'
+import Deck from './src/app/components/Deck'
 
-import { FontAwesome } from '@expo/vector-icons'
+import { color } from './src/app/styles/colors'
+import { main } from './src/app/styles/main'
 
-const Tab = createBottomTabNavigator(
+const stackNav = createStackNavigator(
   {
     DeckList: {
-      screen: DeckList,
-      navigationOptions: {
-        tabBarLabel: 'Decks',
-        tabBarIcon: ({ tintColor }) => (
-          <FontAwesome name="list-alt" size={30} color={tintColor} />
-        )
-      }
+      screen: DeckList
     },
     NewDeck: {
-      screen: NewDeck,
-      navigationOptions: {
-        tabBarLabel: 'New Deck',
-        tabBarIcon: ({ tintColor }) => (
-          <FontAwesome name="plus-square" size={30} color={tintColor} />
-        )
-      }
+      screen: NewDeck
+    },
+    Deck: {
+      screen: Deck
     }
   },
   {
-    navigationOptions: {
-      header: null
-    },
-    tabBarOptions: {
-      activeTintColor: 'white',
-      style: {
-        height: 56,
-        backgroundColor: 'blue',
-        shadowColor: 'rgba(0,0,0,0.24)',
-        shadowOffset: {
-          width: 0,
-          height: 3
-        },
-        shadowRadius: 4,
-        shadowOpacity: 1
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: color.main
+      },
+      headerTintColor: color.white,
+      headerTitleStyle: {
+        fontWeight: 'bold'
       }
     }
   }
 )
 
-const TabNavigator = createAppContainer(Tab)
+const AppContainer = createAppContainer(stackNav)
 const store = createStore(rootReducer, applyMiddleware(thunk, log))
 
 export default class App extends React.Component {
   render () {
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          <TabNavigator />
+        <View style={main.container}>
+          <AppContainer />
         </View>
       </Provider>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-})

@@ -1,51 +1,63 @@
 import React from 'react'
-import { View, Text, FlatList, SafeAreaView, StyleSheet } from 'react-native'
+import Item from './Item'
+
+import { View, FlatList } from 'react-native'
+import ActionButton from 'react-native-action-button'
+
 import { connect } from 'react-redux'
 import { handleInitialData, handleFetchDeck } from '../redux/actions'
 
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { color } from '../styles/colors'
+import { deckList } from '../styles/deckList'
+
 class DeckList extends React.Component {
-  componentDidMount () {
+  static navigationOptions = {
+    title: 'Home'
+  }
+
+  componentDidMount() {
     const { dispatch } = this.props
     dispatch(handleInitialData())
     dispatch(handleFetchDeck())
   }
 
-  render () {
-    const { decks } = this.props
-    console.log(decks)
+  render() {
+    const { decks, navigation } = this.props
+
     return (
-      <View>
-        <FlatList
-          data={decks}
-          extraData={decks}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => {
-            return (
-              <View style={styles.item}>
-                <Text style={styles.text}>{item.title}</Text>
-              </View>
-            )
-          }}
-        />
+      <View style={deckList.container}>
+        <View>
+          <FlatList
+            data={decks}
+            extraData={decks}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => {
+              return <Item item={item} navigation={navigation} />
+            }}
+          />
+        </View>
+        <ActionButton buttonColor={color.actionColor}>
+          <ActionButton.Item
+            title="Add new deck"
+            onPress={() => {
+              navigation.navigate('NewDeck')
+            }}
+          >
+            <MaterialCommunityIcons
+              name="library-plus"
+              size={30}
+              color={color.white}
+            />
+          </ActionButton.Item>
+        </ActionButton>
       </View>
     )
   }
 }
+
 const mapStateToProps = state => ({
   decks: Object.values(state.decks)
-})
-
-const styles = StyleSheet.create({
-  item: {
-    alignItems: 'center',
-    backgroundColor: 'blue',
-    flexGrow: 1,
-    margin: 4,
-    padding: 20
-  },
-  text: {
-    color: 'white'
-  }
 })
 
 export default connect(mapStateToProps)(DeckList)
