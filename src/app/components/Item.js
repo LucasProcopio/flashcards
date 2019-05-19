@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, TouchableOpacity, Animated, Easing } from 'react-native'
-import { deckList } from '../styles/DeckList'
+import { deckList } from '../styles/deckList'
 
 class Item extends React.Component {
   startPressAnimation = scaleValue => {
@@ -24,28 +24,34 @@ class Item extends React.Component {
 
   render() {
     const { item, navigation } = this.props
+    const qtCards = Object.keys(item.questions).length
     let scaleValue = new Animated.Value(1)
 
     return (
       <Animated.View
         style={{
-          ...deckList.item,
+          flex: 1,
           transform: [{ scale: scaleValue }]
         }}
       >
         <TouchableOpacity
+          style={deckList.item}
+          onPress={() => {
+            navigation.navigate('Deck', {
+              deck: item,
+              title: item.title,
+              qtCards: qtCards
+            })
+          }}
           onPressIn={() => {
             this.startPressAnimation(scaleValue)
           }}
           onPressOut={() => {
             this.resetAnimation(scaleValue)
-            navigation.navigate('Deck', {
-              deck: item,
-              title: item.title
-            })
           }}
         >
-          <Text style={deckList.text}>{item.title}</Text>
+          <Text style={deckList.title}>{item.title}</Text>
+          <Text style={deckList.cardText}>Cards: {qtCards}</Text>
         </TouchableOpacity>
       </Animated.View>
     )

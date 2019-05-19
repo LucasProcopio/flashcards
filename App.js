@@ -1,11 +1,11 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { createStackNavigator, createAppContainer } from 'react-navigation'
 
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './src/app/redux/reducers'
-import logger from 'redux-logger'
+
 import log from './src/app/redux/middleware/log'
 import thunk from 'redux-thunk'
 
@@ -14,6 +14,7 @@ import DeckList from './src/app/components/DeckList'
 import Deck from './src/app/components/Deck'
 
 import { color } from './src/app/styles/colors'
+import { main } from './src/app/styles/main'
 
 const stackNav = createStackNavigator(
   {
@@ -47,16 +48,10 @@ export default class App extends React.Component {
   render () {
     return (
       <Provider store={store}>
-        <View style={styles.container}>
+        <View style={main.container}>
           <AppContainer />
         </View>
       </Provider>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-})

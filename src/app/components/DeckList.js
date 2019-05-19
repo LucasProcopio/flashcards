@@ -1,10 +1,15 @@
 import React from 'react'
-import { View, FlatList, TouchableOpacity } from 'react-native'
+import Item from './Item'
+
+import { View, FlatList } from 'react-native'
+import ActionButton from 'react-native-action-button'
+
 import { connect } from 'react-redux'
 import { handleInitialData, handleFetchDeck } from '../redux/actions'
+
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { color } from '../styles/colors'
-import Item from './Item'
+import { deckList } from '../styles/deckList'
 
 class DeckList extends React.Component {
   static navigationOptions = {
@@ -21,32 +26,31 @@ class DeckList extends React.Component {
     const { decks, navigation } = this.props
 
     return (
-      <View>
-        {/*
-          TODO: style button to be on top of the content
-          TODO: Style the deck view
-        */}
+      <View style={deckList.container}>
         <View>
-          <TouchableOpacity
+          <FlatList
+            data={decks}
+            extraData={decks}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => {
+              return <Item item={item} navigation={navigation} />
+            }}
+          />
+        </View>
+        <ActionButton buttonColor={color.actionColor}>
+          <ActionButton.Item
+            title="Add new deck"
             onPress={() => {
               navigation.navigate('NewDeck')
             }}
           >
             <MaterialCommunityIcons
-              name="plus-circle"
-              size={70}
-              color={color.main}
+              name="library-plus"
+              size={30}
+              color={color.white}
             />
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          data={decks}
-          extraData={decks}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => {
-            return <Item item={item} navigation={navigation} />
-          }}
-        />
+          </ActionButton.Item>
+        </ActionButton>
       </View>
     )
   }

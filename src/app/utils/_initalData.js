@@ -8,6 +8,10 @@ export const initialData = {
         question: 'What is a closure?',
         answer:
           'The combination of a function and the lexical environment within which that function was declared.'
+      },
+      {
+        question: 'What is an object',
+        answer: 'An object is a collection of properties'
       }
     ]
   },

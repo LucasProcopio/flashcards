@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { handleNewDeck } from '../redux/actions'
 import { newDeckStyles } from '../styles/newDeck'
 import { color } from '../styles/colors'
-import { FontAwesome } from '@expo/vector-icons'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import AwesomeAlert from 'react-native-awesome-alerts'
 
 class NewDeck extends React.Component {
@@ -43,15 +43,20 @@ class NewDeck extends React.Component {
   }
 
   createDeck = () => {
-    const { dispatch } = this.props
+    const { dispatch, navigation } = this.props
     const { deckName } = this.state
 
     if (deckName.length > 3) {
       const deck = this.createDeckStructure(deckName)
+      const key = Object.keys(deck)
 
       dispatch(handleNewDeck(deck))
 
-      //Todo redirect to deck view
+      navigation.navigate('Deck', {
+        deck: deck[key],
+        title: deck[key].title,
+        qtCards: Object.keys(deck[key].questions).length
+      })
     } else {
       this.setState({
         alertTitle: 'Sorry',
@@ -80,7 +85,11 @@ class NewDeck extends React.Component {
         enabled
         style={newDeckStyles.container}
       >
-        <FontAwesome name="book" size={50} color={color.main} />
+        <MaterialCommunityIcons
+          name="cards-outline"
+          size={50}
+          color={color.actionColor}
+        />
         <Text style={newDeckStyles.title}>Create a new Deck</Text>
         <TextInput
           style={newDeckStyles.textInput}
@@ -103,7 +112,7 @@ class NewDeck extends React.Component {
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
           showConfirmButton={true}
-          confirmText="Ok"
+          confirmText="OK"
           confirmButtonColor={color.main}
           onConfirmPressed={() => {
             this.hideAlert()
