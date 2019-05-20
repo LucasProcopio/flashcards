@@ -12,6 +12,7 @@ import thunk from 'redux-thunk'
 import NewDeck from './src/app/components/NewDeck'
 import DeckList from './src/app/components/DeckList'
 import Deck from './src/app/components/Deck'
+import AddCard from './src/app/components/AddCard'
 
 import { color } from './src/app/styles/colors'
 import { main } from './src/app/styles/main'
@@ -26,6 +27,9 @@ const stackNav = createStackNavigator(
     },
     Deck: {
       screen: Deck
+    },
+    AddCard: {
+      screen: AddCard
     }
   },
   {

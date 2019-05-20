@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-import ActionButton, { ActionButtonItem } from 'react-native-action-button'
+import ActionButton from 'react-native-action-button'
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { connect } from 'react-redux'
@@ -17,7 +17,13 @@ class Deck extends React.Component {
 
   deleteDeck = () => {}
 
-  addCard = () => {}
+  addCard = () => {
+    const { navigation } = this.props
+    const deck = navigation.getParam('deck')
+    navigation.navigate('AddCard', {
+      deck: deck
+    })
+  }
 
   startQuiz = () => {}
 
