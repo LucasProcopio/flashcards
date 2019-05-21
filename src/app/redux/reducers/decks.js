@@ -1,4 +1,9 @@
-import { NEW_DECK, FETCH_DECKS, SET_INITIAL_DATA } from '../actions/actionTypes'
+import {
+  NEW_DECK,
+  FETCH_DECKS,
+  SET_INITIAL_DATA,
+  ADD_CARD
+} from '../actions/actionTypes'
 
 export default function decks (state = {}, action) {
   switch (action.type) {
@@ -16,6 +21,11 @@ export default function decks (state = {}, action) {
       return {
         ...state,
         ...action.decks
+      }
+    case ADD_CARD:
+      return {
+        ...state
+        // handle add question to a specific deck
       }
     default:
       return state

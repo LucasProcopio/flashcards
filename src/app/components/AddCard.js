@@ -1,8 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { View, Text, TouchableOpacity } from 'react-native'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  KeyboardAvoidingView
+} from 'react-native'
 import { TextInput } from 'react-native-paper'
+import { addCard } from '../styles/addCard'
 
 class AddCard extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -17,42 +23,47 @@ class AddCard extends React.Component {
     answere: ''
   }
 
-  handleChangeText = e => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-
   addQuestion = () => {}
 
   render() {
     const { navigation } = this.props
     const deck = navigation.getParam('deck')
     return (
-      <View>
-        <View>
-          <Text>{deck.title}</Text>
+      <KeyboardAvoidingView
+        behavior="padding"
+        enabled
+        style={addCard.container}
+      >
+        <View style={addCard.titleWrapper}>
+          <Text style={addCard.title}>{deck.title}</Text>
         </View>
         <View>
           <TextInput
+            style={addCard.textInput}
             label="Question"
             name="question"
-            value={this.state.questionText}
-            onChangeText={text => this.handleChangeText(e)}
+            value={this.state.question}
+            onChangeText={text => this.setState({ question: text })}
           />
         </View>
         <View>
           <TextInput
+            style={addCard.textInput}
             label="Answere"
             name="answere"
-            value={this.state.answereText}
-            onChangeText={text => this.handleChangeText(e)}
+            value={this.state.answere}
+            onChangeText={text => this.setState({ answere: text })}
           />
         </View>
-        <View>
-          <TouchableOpacity onPress={() => this.addQuestion()}>
+        <View style={addCard.addBtnWrapper}>
+          <TouchableOpacity
+            style={addCard.addQuestion}
+            onPress={() => this.addQuestion()}
+          >
             <Text>Add question</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }

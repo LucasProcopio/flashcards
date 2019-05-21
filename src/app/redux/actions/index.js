@@ -33,3 +33,9 @@ export function handleFetchDeck () {
     })
   }
 }
+
+export function handleAddCard () {
+  return dispatch => {
+    // handle add new card to the deck
+  }
+}
