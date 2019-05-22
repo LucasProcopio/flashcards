@@ -1,6 +1,6 @@
 // action creators
-import { newDeck, fecthDecks, initialData } from './decks'
-import { submitNewDeck, setInitialData, fetchDecks } from '../../utils/api'
+import { newDeck, fecthDecks, initialData, addCard } from './decks'
+import { insertData, setInitialData, fetchDecks } from '../../utils/api'
 
 export function handleInitialData () {
   return dispatch => {
@@ -19,7 +19,7 @@ export function handleInitialData () {
 
 export function handleNewDeck (deck) {
   return dispatch => {
-    return submitNewDeck(deck).then(() => dispatch(newDeck(deck)))
+    return insertData(deck).then(() => dispatch(newDeck(deck)))
   }
 }
 
@@ -34,8 +34,19 @@ export function handleFetchDeck () {
   }
 }
 
-export function handleAddCard () {
+export function handleAddCard (deckId, card) {
   return dispatch => {
     // handle add new card to the deck
+    fetchDecks().then(deckList => {
+      let list = JSON.parse(deckList)
+      const deck = {
+        ...list,
+        [deckId]: {
+          ...list[deckId],
+          questions: [...list[deckId].questions, card]
+        }
+      }
+      return insertData(deck).then(() => dispatch(addCard(deck)))
+    })
   }
 }

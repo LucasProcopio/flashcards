@@ -7,23 +7,65 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView
 } from 'react-native'
+
 import { TextInput } from 'react-native-paper'
+import AwesomeAlert from 'react-native-awesome-alerts'
+
 import { addCard } from '../styles/addCard'
+import { color } from '../styles/colors'
+
+import { handleAddCard } from '../redux/actions'
 
 class AddCard extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const deck = navigation.getParam('deck')
-    return {
-      title: deck.title
-    }
+  static navigationOptions = {
+    title: 'Add Question'
   }
 
   state = {
     question: '',
-    answere: ''
+    answer: '',
+    showAlert: false,
+    alertTitle: '',
+    alertMessage: ''
   }
 
-  addQuestion = () => {}
+  addQuestion = () => {
+    const { navigation, dispatch } = this.props
+    const { question, answer } = this.state
+    const deck = navigation.getParam('deck')
+    if (question.length > 3 && answer.length > 3) {
+      card = {
+        question: question,
+        answer: answer
+      }
+      dispatch(handleAddCard(deck.id, card))
+
+      navigation.navigate('Deck', {
+        deck: deck,
+        title: deck.title,
+        qtCards: Object.keys(deck.questions).length + 1
+      })
+    } else {
+      this.setState({
+        alertTitle: 'Sorry',
+        alertMessage:
+          'The Question field and the Answer must contain at least 3 characters'
+      })
+      this.showAlert()
+    }
+  }
+
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    })
+  }
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    })
+  }
 
   render() {
     const { navigation } = this.props
@@ -50,9 +92,9 @@ class AddCard extends React.Component {
           <TextInput
             style={addCard.textInput}
             label="Answere"
-            name="answere"
-            value={this.state.answere}
-            onChangeText={text => this.setState({ answere: text })}
+            name="answer"
+            value={this.state.answer}
+            onChangeText={text => this.setState({ answer: text })}
           />
         </View>
         <View style={addCard.addBtnWrapper}>
@@ -63,6 +105,20 @@ class AddCard extends React.Component {
             <Text>Add question</Text>
           </TouchableOpacity>
         </View>
+        <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={false}
+          title={this.state.alertTitle}
+          message={this.state.alertMessage}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="OK"
+          confirmButtonColor={color.main}
+          onConfirmPressed={() => {
+            this.hideAlert()
+          }}
+        />
       </KeyboardAvoidingView>
     )
   }

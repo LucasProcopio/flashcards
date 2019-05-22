@@ -23,8 +23,9 @@ export default function decks (state = {}, action) {
         ...action.decks
       }
     case ADD_CARD:
+      console.log(action)
       return {
-        ...state
+        ...action.card
         // handle add question to a specific deck
       }
     default:

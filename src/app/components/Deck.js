@@ -9,10 +9,8 @@ import deckStyle from '../styles/deck'
 import { color } from '../styles/colors'
 
 class Deck extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.getParam('title')
-    }
+  static navigationOptions = {
+    title: 'Deck'
   }
 
   deleteDeck = () => {}
@@ -20,6 +18,7 @@ class Deck extends React.Component {
   addCard = () => {
     const { navigation } = this.props
     const deck = navigation.getParam('deck')
+
     navigation.navigate('AddCard', {
       deck: deck
     })

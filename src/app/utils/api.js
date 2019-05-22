@@ -1,9 +1,9 @@
 import { DECK_STORAGE_KEY, initialData } from './_initalData'
 import { AsyncStorage } from 'react-native'
 
-export async function submitNewDeck (deck) {
+export async function insertData (data) {
   try {
-    return await AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deck))
+    return await AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(data))
   } catch (e) {
     console.log('MERGE DATA ERROR', e)
   }
