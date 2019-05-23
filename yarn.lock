@@ -5398,6 +5398,13 @@ react-native-card-flip@^1.0.4:
   dependencies:
     prop-types "15.5.10"
 
+react-native-card-stack-swiper@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-card-stack-swiper/-/react-native-card-stack-swiper-1.1.0.tgz#5713afc3f4506f68cd90fe6102287aab7766e4ad"
+  integrity sha512-+xMXOYU2aS4CfTWqtL7vPnS9SdFCCD88CyciDDHyY5QP2SgxMpk4tge4b8mIiTBNrXPY0vwI6nGTyAgCjNncaw==
+  dependencies:
+    prop-types "15.5.10"
+
 react-native-deck-swiper@^1.6.7:
   version "1.6.7"
   resolved "https://registry.yarnpkg.com/react-native-deck-swiper/-/react-native-deck-swiper-1.6.7.tgz#598e4835c0f14b505a1fb0534ae8d667307e693b"
@@ -5492,6 +5499,11 @@ react-native-vector-icons@6.0.0:
     lodash "^4.0.0"
     prop-types "^15.6.2"
     yargs "^8.0.2"
+
+react-native-view-overflow@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-view-overflow/-/react-native-view-overflow-0.0.4.tgz#36b2c00fbe7f270a0a92548eeb9ee147d2a4c3ae"
+  integrity sha512-AUci2As9lI23CPG1urS/cLC/EQWMbc0kwBhClY4ikZGgBJQF2uBkCPIC/1KY4hcIvhtdv4pxMXC9UIPrdYbwSw==
 
 react-native-view-shot@2.5.0:
   version "2.5.0"

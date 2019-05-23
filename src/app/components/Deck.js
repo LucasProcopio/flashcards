@@ -24,7 +24,14 @@ class Deck extends React.Component {
     })
   }
 
-  startQuiz = () => {}
+  startQuiz = () => {
+    const { navigation } = this.props
+    const deck = navigation.getParam('deck')
+
+    navigation.navigate('Quiz', {
+      deck: deck
+    })
+  }
 
   render() {
     const { navigation } = this.props

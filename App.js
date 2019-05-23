@@ -13,6 +13,7 @@ import NewDeck from './src/app/components/NewDeck'
 import DeckList from './src/app/components/DeckList'
 import Deck from './src/app/components/Deck'
 import AddCard from './src/app/components/AddCard'
+import Quiz from './src/app/components/Quiz'
 
 import { color } from './src/app/styles/colors'
 import { main } from './src/app/styles/main'
@@ -30,6 +31,9 @@ const stackNav = createStackNavigator(
     },
     AddCard: {
       screen: AddCard
+    },
+    Quiz: {
+      screen: Quiz
     }
   },
   {
