@@ -90,12 +90,29 @@ class Quiz extends React.Component {
               this.swiper = swiper;
             }}
           >
-            {cardData.map(card => {
+            {cardData.map((item, index) => {
               return (
-                <Card style={quizStyles.card} key={card.question}>
-                  <View style={quizStyles.cardContent}>
-                    <Text style={quizStyles.question}>{card.question}</Text>
-                  </View>
+                <Card style={quizStyles.card} key={index}>
+                  <CardFlip
+                    style={quizStyles.card}
+                    ref={card => (this["card" + index] = card)}
+                  >
+                    <View style={quizStyles.cardContent}>
+                      <TouchableOpacity
+                        onPress={() => this["card" + index].flip()}
+                      >
+                        <Text style={quizStyles.question}>{item.question}</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={quizStyles.cardContent}>
+                      <TouchableOpacity
+                        style={quizStyles.cardContent}
+                        onPress={() => this["card" + index].flip()}
+                      >
+                        <Text style={quizStyles.question}>{item.answer}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </CardFlip>
                 </Card>
               );
             })}

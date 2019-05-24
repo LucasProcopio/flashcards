@@ -1,42 +1,42 @@
-import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
-import ActionButton from 'react-native-action-button'
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import ActionButton from "react-native-action-button";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
-import deckStyle from '../styles/deck'
-import { color } from '../styles/colors'
+import deckStyle from "../styles/deck";
+import { color } from "../styles/colors";
 
 class Deck extends React.Component {
   static navigationOptions = {
-    title: 'Deck'
-  }
+    title: "Deck"
+  };
 
-  deleteDeck = () => {}
+  deleteDeck = () => {};
 
   addCard = () => {
-    const { navigation } = this.props
-    const deck = navigation.getParam('deck')
+    const { navigation } = this.props;
+    const deck = navigation.getParam("deck");
 
-    navigation.navigate('AddCard', {
+    navigation.navigate("AddCard", {
       deck: deck
-    })
-  }
+    });
+  };
 
   startQuiz = () => {
-    const { navigation } = this.props
-    const deck = navigation.getParam('deck')
+    const { navigation } = this.props;
+    const deck = navigation.getParam("deck");
 
-    navigation.navigate('Quiz', {
+    navigation.navigate("Quiz", {
       deck: deck
-    })
-  }
+    });
+  };
 
   render() {
-    const { navigation } = this.props
-    const deck = navigation.getParam('deck')
-    const qtCards = navigation.getParam('qtCards')
+    const { navigation } = this.props;
+    const deck = navigation.getParam("deck");
+    const qtCards = navigation.getParam("qtCards");
 
     return (
       <View style={deckStyle.container}>
@@ -90,8 +90,8 @@ class Deck extends React.Component {
           </ActionButton.Item>
         </ActionButton>
       </View>
-    )
+    );
   }
 }
 
-export default connect()(Deck)
+export default connect()(Deck);

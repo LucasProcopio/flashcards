@@ -31,12 +31,13 @@ export const quizStyles = StyleSheet.create({
     borderBottomColor: color.actionColor
   },
   cardContent: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center"
   },
   question: {
     color: color.blackGrey,
-    fontSize: 14
+    fontSize: 18
   },
   scoreWrapper: {
     flex: 1
