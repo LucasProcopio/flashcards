@@ -1,24 +1,14 @@
 {
-  "env": {
-    "node": true,
-    "es6": true
-  },
-  "extends": "standard",
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
+  "parser": "babel-eslint",
+  "plugins": ["react", "react-native"],
   "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true,
-      "modules": true,
-      "experimentalObjectRestSpread": true
+      "modules": true
     }
   },
-  "plugins": ["react"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "airbnb-base"],
   "rules": {
-    "no-unused-vars": "off"
+    "arrow-body-style": "warn"
   }
 }

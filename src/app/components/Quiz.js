@@ -1,71 +1,109 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native'
-import CardFlip from 'react-native-card-flip'
-import CardStack, { Card } from 'react-native-card-stack-swiper'
-import { connect } from 'react-redux'
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
+
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import CardFlip from "react-native-card-flip";
+import CardStack, { Card } from "react-native-card-stack-swiper";
+import { quizStyles } from "../styles/quiz";
+import { color } from "../styles/colors";
 
 class Quiz extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    const deck = navigation.getParam('deck')
+    const deck = navigation.getParam("deck");
     return {
       // TODO add card counter here
       title: deck.title
-    }
-  }
+    };
+  };
+
+  state = {
+    cardCount: 1
+  };
+
+  restartQuiz = () => {
+    const { navigation } = this.props;
+    const deck = navigation.getParam("deck");
+    navigation.navigate("Quiz", {
+      deck: deck
+    });
+  };
 
   render() {
-    const { navigation } = this.props
-    const deck = navigation.getParam('deck')
-    const questions = Object.values(deck.questions).map(val => val.question)
+    const { navigation } = this.props;
+    const { cardCount } = this.state;
+    const deck = navigation.getParam("deck");
+    const cardData = Object.values(deck.questions);
+    const cardQty = cardData.length;
 
-    console.log(questions)
+    console.log(cardData);
     return (
       // todo: show list of cards , with flip and swipe btn
       // todo: set btn check for answers
       // todo: show percentage of how many are correct at the end
-      <View>
-        <View>
-          <Text>cards 1/10</Text>
+      <View style={quizStyles.container}>
+        <View style={quizStyles.titleWrapper}>
+          <MaterialCommunityIcons
+            name="cards-outline"
+            size={30}
+            color={color.actionColor}
+          />
+          <Text style={quizStyles.title}>
+            Cards {cardCount}/{cardQty}
+          </Text>
         </View>
-        <CardStack
-          style={styles.content}
-          ref={swiper => {
-            this.swiper = swiper
-          }}
-        >
-          <Card style={[styles.card, styles.card1]}>
-            <Text style={styles.text}>A</Text>
-          </Card>
-          <Card style={[styles.card, styles.card2]}>
-            <Text style={styles.text}>B</Text>
-          </Card>
-          <Card style={[styles.card, styles.card1]}>
-            <Text style={styles.text}>C</Text>
-          </Card>
-        </CardStack>
+        <View style={quizStyles.titleWrapper}>
+          <Text style={quizStyles.infoText}>
+            Swipe up the card to show the answere :)
+          </Text>
+        </View>
+        <View>
+          <CardStack
+            disableTopSwipe={true}
+            disableBottomSwipe={true}
+            verticalSwipe={false}
+            renderNoMoreCards={() => {
+              return (
+                <View style={quizStyles.scoreWrapper}>
+                  <View style={quizStyles.titleWrapper}>
+                    <Text style={quizStyles.scoreTitle}>
+                      No cards :) Score 100%
+                    </Text>
+                  </View>
+                  <View style={quizStyles.scoreBtnWrapper}>
+                    <TouchableOpacity
+                      style={quizStyles.answereBtn}
+                      onPress={() => this.restartQuiz()}
+                    >
+                      <Text>Restart quiz</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            }}
+            onSwiped={() =>
+              this.setState({
+                cardCount: cardCount < cardQty ? cardCount + 1 : cardCount
+              })
+            }
+            ref={swiper => {
+              this.swiper = swiper;
+            }}
+          >
+            {cardData.map(card => {
+              return (
+                <Card style={quizStyles.card} key={card.question}>
+                  <View style={quizStyles.cardContent}>
+                    <Text style={quizStyles.question}>{card.question}</Text>
+                  </View>
+                </Card>
+              );
+            })}
+          </CardStack>
+        </View>
       </View>
-    )
+    );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF'
-  },
-  card: {
-    flex: 1,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: '#E8E8E8',
-    justifyContent: 'center',
-    backgroundColor: 'white'
-  },
-  text: {
-    textAlign: 'center',
-    fontSize: 50,
-    backgroundColor: 'transparent'
-  }
-})
-
-export default connect()(Quiz)
+export default connect()(Quiz);
