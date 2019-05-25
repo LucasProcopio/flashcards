@@ -7,6 +7,13 @@ flashcards to those decks and then take quizzes on those decks.
 
 ---
 
+<p align="center">
+<img src="https://github.com/LucasProcopio/flashcards/blob/master/assets/one.gif" width="200" height="350"> 
+<img src="https://github.com/LucasProcopio/flashcards/blob/master/assets/two.gif" width="200" height="350">
+</p>
+
+---
+
 ## Installation
 
 - Clone or Download this repository
