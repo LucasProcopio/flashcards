@@ -17,6 +17,10 @@ flashcards to those decks and then take quizzes on those decks.
   scan the QR code to open the project on your phone.
 - **NOTE** this application was developed and tested on android only
 
+## Download APK
+
+- Click [Here](https://expo.io/artifacts/70a5d71b-c929-47c1-94a4-d29c699c69e2)
+
 ---
 
 ## Lisence
