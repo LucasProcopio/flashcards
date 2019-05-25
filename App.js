@@ -1,21 +1,23 @@
-import React from 'react'
-import { View } from 'react-native'
-import { createStackNavigator, createAppContainer } from 'react-navigation'
+import React from "react";
+import { View } from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 
-import { createStore, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-import rootReducer from './src/app/redux/reducers'
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import rootReducer from "./src/app/redux/reducers";
 
-import log from './src/app/redux/middleware/log'
-import thunk from 'redux-thunk'
+import log from "./src/app/redux/middleware/log";
+import thunk from "redux-thunk";
 
-import NewDeck from './src/app/components/NewDeck'
-import DeckList from './src/app/components/DeckList'
-import Deck from './src/app/components/Deck'
-import AddCard from './src/app/components/AddCard'
+import NewDeck from "./src/app/components/NewDeck";
+import DeckList from "./src/app/components/DeckList";
+import Deck from "./src/app/components/Deck";
+import AddCard from "./src/app/components/AddCard";
+import Quiz from "./src/app/components/quiz/Quiz";
+import Score from "./src/app/components/quiz/Score";
 
-import { color } from './src/app/styles/colors'
-import { main } from './src/app/styles/main'
+import { color } from "./src/app/styles/colors";
+import { main } from "./src/app/styles/main";
 
 const stackNav = createStackNavigator(
   {
@@ -30,6 +32,12 @@ const stackNav = createStackNavigator(
     },
     AddCard: {
       screen: AddCard
+    },
+    Quiz: {
+      screen: Quiz
+    },
+    Score: {
+      screen: Score
     }
   },
   {
@@ -39,23 +47,23 @@ const stackNav = createStackNavigator(
       },
       headerTintColor: color.white,
       headerTitleStyle: {
-        fontWeight: 'bold'
+        fontWeight: "bold"
       }
     }
   }
-)
+);
 
-const AppContainer = createAppContainer(stackNav)
-const store = createStore(rootReducer, applyMiddleware(thunk, log))
+const AppContainer = createAppContainer(stackNav);
+const store = createStore(rootReducer, applyMiddleware(thunk, log));
 
 export default class App extends React.Component {
-  render () {
+  render() {
     return (
       <Provider store={store}>
         <View style={main.container}>
           <AppContainer />
         </View>
       </Provider>
-    )
+    );
   }
 }
