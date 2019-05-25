@@ -15,6 +15,9 @@ class Deck extends React.Component {
 
   deleteDeck = () => {};
 
+  /**
+   * Navigate to add card screen
+   */
   addCard = () => {
     const { navigation } = this.props;
     const deck = navigation.getParam("deck");
@@ -24,10 +27,12 @@ class Deck extends React.Component {
     });
   };
 
+  /**
+   * Navigate to Quiz screen
+   */
   startQuiz = () => {
     const { navigation } = this.props;
     const deck = navigation.getParam("deck");
-
     navigation.navigate("Quiz", {
       deck: deck
     });
