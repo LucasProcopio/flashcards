@@ -1,18 +1,26 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { connect } from "react-redux";
 
 import CardFlip from "react-native-card-flip";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { clearNotification, setNotification } from "../../utils/api";
 import CardStack, { Card } from "react-native-card-stack-swiper";
+
 import Answer from "./Answer";
 import Question from "./Question";
-
-import { quizStyles } from "../../styles/quiz";
-import { Instructions } from "./Instructions";
 import { CardCounter } from "./CardCounter";
 import { NoCards } from "./NoCards";
+import { Instructions } from "./Instructions";
+
+import { quizStyles } from "../../styles/quiz";
+import { color } from "../../styles/colors";
 
 class Quiz extends React.Component {
+  componentDidMount() {
+    clearNotification().then(setNotification);
+  }
+
   static navigationOptions = ({ navigation }) => {
     const deck = navigation.getParam("deck");
     return {
@@ -39,6 +47,21 @@ class Quiz extends React.Component {
     const deck = navigation.getParam("deck");
     const cardData = Object.values(deck.questions);
     const cardQty = cardData.length;
+
+    if (cardQty === 0) {
+      return (
+        <View style={quizStyles.container}>
+          <View style={quizStyles.titleWrapper}>
+            <MaterialCommunityIcons
+              name="emoticon-sad"
+              size={50}
+              color={color.darkRed}
+            />
+            <Text style={quizStyles.title}>Sorry this Deck has no cards.</Text>
+          </View>
+        </View>
+      );
+    }
 
     return (
       <View style={quizStyles.container}>

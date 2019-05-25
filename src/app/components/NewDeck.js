@@ -1,82 +1,96 @@
-import React from 'react'
+import React from "react";
 import {
   Text,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView
-} from 'react-native'
-import { connect } from 'react-redux'
-import { handleNewDeck } from '../redux/actions'
-import { newDeckStyles } from '../styles/newDeck'
-import { color } from '../styles/colors'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import AwesomeAlert from 'react-native-awesome-alerts'
+} from "react-native";
+import { connect } from "react-redux";
+import { handleNewDeck } from "../redux/actions";
+import { newDeckStyles } from "../styles/newDeck";
+import { color } from "../styles/colors";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 class NewDeck extends React.Component {
   static navigationOptions = {
-    title: 'New Deck'
-  }
+    title: "New Deck"
+  };
 
   state = {
-    deckName: '',
+    deckName: "",
     showAlert: false,
-    alertTitle: '',
-    alertMessage: ''
-  }
+    alertTitle: "",
+    alertMessage: ""
+  };
   componentDidMount() {}
 
   handleChange = (name, value) => {
-    this.setState({ [name]: value })
-  }
+    this.setState({ [name]: value });
+  };
 
+  /**
+   * Structure deck object
+   * @param {string} deckName the name of the deck
+   * @return {Object} deck object
+   */
   createDeckStructure = deckName => {
     const uId = Math.random()
       .toString(36)
-      .substr(2, 10)
+      .substr(2, 10);
     return {
       [uId]: {
         id: uId,
         title: deckName,
         questions: []
       }
-    }
-  }
+    };
+  };
 
+  /**
+   * Create new deck
+   */
   createDeck = () => {
-    const { dispatch, navigation } = this.props
-    const { deckName } = this.state
+    const { dispatch, navigation } = this.props;
+    const { deckName } = this.state;
 
     if (deckName.length > 3) {
-      const deck = this.createDeckStructure(deckName)
-      const key = Object.keys(deck)
+      const deck = this.createDeckStructure(deckName);
+      const key = Object.keys(deck);
 
-      dispatch(handleNewDeck(deck))
+      dispatch(handleNewDeck(deck));
 
-      navigation.navigate('Deck', {
+      navigation.navigate("Deck", {
         deck: deck[key],
         title: deck[key].title,
         qtCards: Object.keys(deck[key].questions).length
-      })
+      });
     } else {
       this.setState({
-        alertTitle: 'Sorry',
-        alertMessage: 'The name of the deck must be at least 3 characters'
-      })
-      this.showAlert()
+        alertTitle: "Sorry",
+        alertMessage: "The name of the deck must be at least 3 characters"
+      });
+      this.showAlert();
     }
-  }
+  };
 
+  /**
+   * Show an alert
+   */
   showAlert = () => {
     this.setState({
       showAlert: true
-    })
-  }
+    });
+  };
 
+  /**
+   * Hides the alert
+   */
   hideAlert = () => {
     this.setState({
       showAlert: false
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -93,7 +107,7 @@ class NewDeck extends React.Component {
         <Text style={newDeckStyles.title}>Create a new Deck</Text>
         <TextInput
           style={newDeckStyles.textInput}
-          onChangeText={text => this.handleChange('deckName', text)}
+          onChangeText={text => this.handleChange("deckName", text)}
           name="deckName"
           value={this.state.deckName}
         />
@@ -115,12 +129,12 @@ class NewDeck extends React.Component {
           confirmText="OK"
           confirmButtonColor={color.main}
           onConfirmPressed={() => {
-            this.hideAlert()
+            this.hideAlert();
           }}
         />
       </KeyboardAvoidingView>
-    )
+    );
   }
 }
 
-export default connect()(NewDeck)
+export default connect()(NewDeck);

@@ -1,75 +1,98 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react";
+import { connect } from "react-redux";
 
 import {
   View,
   Text,
   TouchableOpacity,
   KeyboardAvoidingView
-} from 'react-native'
+} from "react-native";
 
-import { TextInput } from 'react-native-paper'
-import AwesomeAlert from 'react-native-awesome-alerts'
+import { TextInput } from "react-native-paper";
+import AwesomeAlert from "react-native-awesome-alerts";
 
-import { addCard } from '../styles/addCard'
-import { color } from '../styles/colors'
+import { addCard } from "../styles/addCard";
+import { color } from "../styles/colors";
 
-import { handleAddCard } from '../redux/actions'
+import { handleAddCard } from "../redux/actions";
+
+import { setNotification } from "../utils/api";
 
 class AddCard extends React.Component {
-  static navigationOptions = {
-    title: 'Add Question'
+  componentDidMount() {
+    setNotification();
   }
+
+  static navigationOptions = {
+    title: "Add Question"
+  };
 
   state = {
-    question: '',
-    answer: '',
+    question: "",
+    answer: "",
     showAlert: false,
-    alertTitle: '',
-    alertMessage: ''
-  }
+    alertTitle: "",
+    alertMessage: ""
+  };
 
+  /**
+   * Add new question (CARD) to the deck then returns to deck screen
+   */
   addQuestion = () => {
-    const { navigation, dispatch } = this.props
-    const { question, answer } = this.state
-    const deck = navigation.getParam('deck')
-    if (question.length > 3 && answer.length > 3) {
+    const { navigation, dispatch } = this.props;
+    const { question, answer } = this.state;
+    const deck = navigation.getParam("deck");
+
+    if (question.length >= 3 && answer.length >= 3) {
       card = {
         question: question,
         answer: answer
-      }
-      dispatch(handleAddCard(deck.id, card))
+      };
 
-      navigation.navigate('Deck', {
-        deck: deck,
+      dispatch(handleAddCard(deck.id, card));
+
+      const updatedDeck = {
+        id: deck.id,
+        questions: [...deck.questions, card],
+        title: deck.title
+      };
+
+      navigation.navigate("Deck", {
+        deck: updatedDeck,
         title: deck.title,
-        qtCards: Object.keys(deck.questions).length + 1
-      })
+        qtCards: Object.keys(updatedDeck.questions).length
+      });
     } else {
       this.setState({
-        alertTitle: 'Sorry',
+        alertTitle: "Sorry",
         alertMessage:
-          'The Question field and the Answer must contain at least 3 characters'
-      })
-      this.showAlert()
+          "The Question field and the Answer must contain at least 3 characters"
+      });
+      this.showAlert();
     }
-  }
+  };
 
+  /**
+   * Show an alert message
+   */
   showAlert = () => {
     this.setState({
       showAlert: true
-    })
-  }
+    });
+  };
 
+  /**
+   * Hides the alert message
+   */
   hideAlert = () => {
     this.setState({
       showAlert: false
-    })
-  }
+    });
+  };
 
   render() {
-    const { navigation } = this.props
-    const deck = navigation.getParam('deck')
+    const { navigation } = this.props;
+    const deck = navigation.getParam("deck");
     return (
       <KeyboardAvoidingView
         behavior="padding"
@@ -116,12 +139,12 @@ class AddCard extends React.Component {
           confirmText="OK"
           confirmButtonColor={color.main}
           onConfirmPressed={() => {
-            this.hideAlert()
+            this.hideAlert();
           }}
         />
       </KeyboardAvoidingView>
-    )
+    );
   }
 }
 
-export default connect()(AddCard)
+export default connect()(AddCard);

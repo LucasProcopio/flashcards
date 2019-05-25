@@ -3,32 +3,32 @@ import {
   FETCH_DECKS,
   SET_INITIAL_DATA,
   ADD_CARD
-} from './actionTypes'
+} from "./actionTypes";
 
-export function newDeck (deck) {
+export function newDeck(deck) {
   return {
     type: NEW_DECK,
     deck
-  }
+  };
 }
 
-export function fecthDecks (decks) {
+export function fecthDecks(decks) {
   return {
     type: FETCH_DECKS,
     decks
-  }
+  };
 }
 
-export function initialData (decks) {
+export function initialData(decks) {
   return {
     type: SET_INITIAL_DATA,
     decks
-  }
+  };
 }
 
-export function addCard (card) {
+export function addCard(card) {
   return {
     type: ADD_CARD,
     card
-  }
+  };
 }

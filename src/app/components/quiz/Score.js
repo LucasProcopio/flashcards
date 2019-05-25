@@ -6,10 +6,8 @@ import { StackActions } from "react-navigation";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 class Score extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: "Score"
-    };
+  static navigationOptions = {
+    title: "Score"
   };
 
   restartQuiz = () => {
@@ -34,12 +32,15 @@ class Score extends React.Component {
     });
   };
 
+  /**
+   * Render Emoticon depending on the quiz score
+   */
   renderEmoji = (cardQty, score) => {
     if (score === 0) {
       return (
         <MaterialCommunityIcons
           name="emoticon-sad"
-          size={30}
+          size={45}
           color={color.darkRed}
         />
       );
@@ -49,7 +50,7 @@ class Score extends React.Component {
       return (
         <MaterialCommunityIcons
           name="emoticon-happy"
-          size={40}
+          size={45}
           color={color.ligthGreen}
         />
       );
@@ -57,7 +58,7 @@ class Score extends React.Component {
       return (
         <MaterialCommunityIcons
           name="emoticon-neutral"
-          size={40}
+          size={45}
           color={color.lightBrown}
         />
       );
